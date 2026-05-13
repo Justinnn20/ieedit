@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 include "db_conn.php"; // Koneksyon sa database
 
@@ -20,7 +20,6 @@ if ($store_check && $row = mysqli_fetch_assoc($store_check)) {
                 h1 { font-family: 'Fredoka One', cursive; color: #e74c3c; margin-bottom: 15px; }
                 p { font-weight: 600; color: #555; }
             </style>
-            <link rel="stylesheet" href="modal.css">
 </head>
         <body>
             <div class='closed-card'>
@@ -29,8 +28,7 @@ if ($store_check && $row = mysqli_fetch_assoc($store_check)) {
                 <p>Pasensya na, Kabayan! Ang Kainan ni Ate Kabayan ay kasalukuyang sarado at hindi pa tumatanggap ng mga orders.</p>
                 <p style='margin-top: 10px; font-size: 0.85rem; color: #888;'>Balik po kayo mamaya kapag kami ay open na ulit.</p>
             </div>
-        <script src="modal.js"></script>
-</body>
+        </body>
         </html>";
         exit(); // Pipigilan nito na basahin pa ang original html code mo sa ibaba
     }
