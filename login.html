@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Kainan ni Ate Kabayan</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="login.css">
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+</head>
+<body>
+
+
+
+    <div class="login-container">
+        
+        <div class="left-panel">
+            <div class="logo-box">
+                <img src="logo.png" alt="Logo">
+            </div>
+            
+            <div class="brand-text-wrapper">
+                <h1 class="brand-text">Kainan<br>Ni Ate<br>Kabayan</h1>
+                <p class="sub-brand-text">Tara Kabayan, Kain na!</p>
+            </div>
+            
+            <div class="social-icons-bottom">
+                <i class="fab fa-facebook"></i>
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-google"></i>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="login-icon-box">
+                <i class="fas fa-sign-in-alt"></i>
+            </div>
+            <h2 class="form-heading">Login</h2>
+            <p class="form-subheading">Welcome Kabayan! Craving for our delicious dishes?<br>Log in to order now!</p>
+
+            <form action="login.php" method="POST" class="login-form" id="mainLoginForm">
+                <div class="input-field">
+                    <i class="far fa-user"></i>
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+                
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password" id="login-pass" placeholder="Password" required>
+                    <i class="far fa-eye toggle-eye" onclick="togglePass('login-pass')"></i>
+                </div>
+
+                <div class="form-options">
+                    <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                        <input type="checkbox"> Remember me!
+                    </label>
+                    <!-- Konektado na sa forgot_password.php[cite: 6] -->
+                    <a href="forgot_password.php">Forgot password?</a>
+                </div>
+
+                <div class="recaptcha-wrapper">
+                    <div class="g-recaptcha" data-sitekey="6LckqpwsAAAAAAdyj6bFeopEaj80stQkJ_RIHeQQ"></div>
+                </div>
+
+                <button type="submit" name="login_btn" class="btn-login">Login</button>
+                
+                <div class="signup-divider">
+                    <span>Don't have an account? <a href="createacc.html" style="color:#fcb063;">Register here!</a></span>
+                </div>
+
+                <div class="social-login">
+                    <button type="button" class="btn-social-pill" onclick="googleCustomLogin()">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" class="social-icon-img" alt="G">
+                        Google
+                    </button>
+                    
+                    <button type="button" class="btn-social-pill" onclick="fbLogin()">
+                        <i class="fab fa-facebook" style="color:#1877F2; font-size: 16px;"></i>
+                        Facebook
+                    </button>
+                </div>
+            </form>
+
+            <form id="google-login-form" action="login.php" method="POST" style="display:none;">
+                <input type="hidden" name="google_login" value="1">
+                <input type="hidden" name="credential" id="google-credential">
+                <input type="hidden" name="g-recaptcha-response" id="google-recaptcha-response">
+            </form>
+
+            <form id="fb-login-form" action="login.php" method="POST" style="display:none;">
+                <input type="hidden" name="fb_login" value="1">
+                <input type="hidden" name="fb_email" id="fb-email">
+                <input type="hidden" name="fb_name" id="fb-name">
+                <input type="hidden" name="fb_id" id="fb-id"> <input type="hidden" name="g-recaptcha-response" id="fb-recaptcha-response">
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        function checkRecaptcha() {
+            const response = grecaptcha.getResponse();
+            if (response.length == 0) {
+                alert("Paki-tsek muna ang 'I'm not a robot' box.");
+                return false;
+            }
+            return response;
+        }
+
+        document.getElementById("mainLoginForm").addEventListener("submit", function(e) {
+            if (!checkRecaptcha()) e.preventDefault(); 
+        });
+
+        let tokenClient;
+        window.onload = function() {
+            tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: '47612712308-8rh4nfkq5s74rkova2pe60h9p8en2jmb.apps.googleusercontent.com',
+                scope: 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
+                callback: (tokenResponse) => {
+                    if (tokenResponse && tokenResponse.access_token) {
+                        const token = checkRecaptcha();
+                        if (!token) return;
+
+                        // Get user info directly from Google API
+                        fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                            headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            document.getElementById('google-credential').value = JSON.stringify(data);
+                            document.getElementById('google-recaptcha-response').value = token;
+                            document.getElementById('google-login-form').submit();
+                        });
+                    }
+                },
+            });
+        };
+
+        function googleCustomLogin() {
+            if (!checkRecaptcha()) return;
+            tokenClient.requestAccessToken();
+        }
+
+        window.fbAsyncInit = function() {
+            FB.init({ appId: '3396938717141397', cookie: true, xfbml: true, version: 'v18.0' });
+        };
+
+        // FACEBOOK LOGIN UPDATE
+        function fbLogin() {
+            const token = checkRecaptcha();
+            if (!token) return;
+
+            FB.login(function(response) {
+                if (response.status === 'connected') {
+                    const fb_user_id = response.authResponse.userID; // KINUHA ANG FB ID DITO[cite: 6]
+
+                    FB.api('/me', {fields: 'name,email'}, function(userData) {
+                        document.getElementById('fb-email').value = userData.email || '';
+                        document.getElementById('fb-name').value = userData.name;
+                        document.getElementById('fb-id').value = fb_user_id; // PINASA ANG FB ID SA FORM[cite: 6]
+                        document.getElementById('fb-recaptcha-response').value = token;
+                        document.getElementById('fb-login-form').submit();
+                    });
+                }
+            }, {scope: 'public_profile,email'});
+        }
+
+        function togglePass(id) {
+            const x = document.getElementById(id);
+            x.type = x.type === "password" ? "text" : "password";
+        }
+    </script>
+</body>
+</html>

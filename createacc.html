@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Kabayan Member</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="createacc.css">
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    
+    <style>
+        /* --- CUSTOM SOCIAL BUTTONS (Pill-shaped, Transparent, White Outline) --- */
+        .social-login { 
+            display: flex; 
+            gap: 15px; /* Spacing sa gitna ng dalawang button */
+            margin-top: 15px; 
+            width: 100%;
+        }
+
+        .btn-social-pill {
+            flex: 1; /* Para pantay sila ng lapad */
+            padding: 12px;
+            border-radius: 30px; /* Pill-shape */
+            border: 1.5px solid #fff; /* White outline */
+            background: transparent; /* Walang background color */
+            color: #fff; /* White text */
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-social-pill:hover {
+            background: rgba(255, 255, 255, 0.15); /* Light hover effect */
+        }
+
+        .social-icon {
+            font-size: 1.1rem;
+        }
+
+        /* Para hindi mag-overlap ang reCAPTCHA sa small screens */
+        .recaptcha-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+            transform-origin: center;
+        }
+        
+        @media (max-width: 400px) {
+            .recaptcha-wrapper { transform: scale(0.85); }
+        }
+    </style>
+</head>
+<body>
+
+
+
+    <div class="main-container">
+        
+        <div class="left-side">
+            <div class="overlay">
+                <div class="content">
+                    <p class="subtitle">COME IN</p>
+                    <h1 class="main-title">WE ARE OPEN</h1>
+                    <div class="divider-line"></div>
+                    <p class="time">10:00 AM TO 3:00 AM</p>
+                    <p class="address">1785 Evangelista St. near Malvar St.<br>Bangkal, Makati</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-side">
+            <div class="header-logo">
+                <img src="logo.png" alt="Logo">
+            </div>
+
+            <div class="form-wrapper">
+                <h2 class="form-heading">Create an Account</h2>
+                <p class="form-subheading">Become a Kabayan Member!</p>
+                <p class="form-text">Sign up now for faster checkout and exclusive treats!</p>
+
+                <form action="register.php" method="POST" class="register-form" id="mainRegisterForm">
+                    <div class="input-row">
+                        <input type="text" name="full_name" placeholder="Name" required>
+                        <input type="text" name="contact" placeholder="Contact Number">
+                    </div>
+                    
+                    <input type="email" name="email" placeholder="Email" required>
+
+                    <div class="password-field">
+                        <input type="password" name="password" id="pass" placeholder="Create your Password" required oninput="checkPasswordStrength()">
+                        <i class="far fa-eye toggle-eye" onclick="togglePass('pass')"></i>
+                    </div>
+
+                    <div id="password-strength-container" style="display: none; text-align: left; margin-top: 5px; margin-bottom: 15px;">
+                        <div class="strength-bars" style="display: flex; gap: 5px; height: 6px; margin-bottom: 5px;">
+                            <div class="bar" id="bar-1" style="flex: 1; background: #ddd; border-radius: 3px; transition: 0.3s;"></div>
+                            <div class="bar" id="bar-2" style="flex: 1; background: #ddd; border-radius: 3px; transition: 0.3s;"></div>
+                            <div class="bar" id="bar-3" style="flex: 1; background: #ddd; border-radius: 3px; transition: 0.3s;"></div>
+                        </div>
+                        <p id="strength-text" style="font-size: 0.8rem; font-weight: 600; color: #555; margin-bottom: 10px;">Password Strength</p>
+                        <ul id="password-reqs" style="list-style: none; padding: 0; font-size: 0.75rem; color: #777;">
+                            <li id="req-length" class="invalid"><i class="fas fa-times-circle" style="color: #e74c3c; margin-right: 5px;"></i> At least 8 characters</li>
+                            <li id="req-upper" class="invalid"><i class="fas fa-times-circle" style="color: #e74c3c; margin-right: 5px;"></i> 1 Uppercase letter</li>
+                            <li id="req-num" class="invalid"><i class="fas fa-times-circle" style="color: #e74c3c; margin-right: 5px;"></i> 1 Number</li>
+                            <li id="req-spec" class="invalid"><i class="fas fa-times-circle" style="color: #e74c3c; margin-right: 5px;"></i> 1 Special character (@$!%*?&)</li>
+                        </ul>
+                    </div>
+
+                    <div class="password-field">
+                        <input type="password" name="confirm_password" id="cpass" placeholder="Confirm Password" required>
+                        <i class="far fa-eye toggle-eye" onclick="togglePass('cpass')"></i>
+                    </div>
+
+                    <div class="recaptcha-wrapper">
+                        <div class="g-recaptcha" data-sitekey="6LckqpwsAAAAAAdyj6bFeopEaj80stQkJ_RIHeQQ"></div>
+                    </div>
+
+                    <button type="submit" name="submit" class="btn-submit">Create Account</button>
+                </form>
+
+                <div class="or-divider"><span>Or Register with</span></div>
+
+                <div class="social-login">
+                    <button type="button" class="btn-social-pill" onclick="googleCustomLogin()">
+                        <i class="fab fa-google social-icon"></i> Google
+                    </button>
+                    
+                    <button type="button" class="btn-social-pill" onclick="fbLogin()">
+                        <i class="fab fa-facebook-f social-icon"></i> Facebook
+                    </button>
+                </div>
+
+                <p class="footer-login">Already have an account? <a href="login.php">Log In</a></p>
+            </div>
+
+            <form id="google-login-form" action="login.php" method="POST" style="display:none;">
+                <input type="hidden" name="google_login" value="1">
+                <input type="hidden" name="credential" id="google-credential">
+                <input type="hidden" name="g-recaptcha-response" id="google-recaptcha-response">
+            </form>
+
+            <form id="fb-login-form" action="login.php" method="POST" style="display:none;">
+                <input type="hidden" name="fb_login" value="1">
+                <input type="hidden" name="fb_email" id="fb-email">
+                <input type="hidden" name="fb_name" id="fb-name">
+                <input type="hidden" name="g-recaptcha-response" id="fb-recaptcha-response">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 1. RECAPTCHA CHECKER
+        function checkRecaptcha() {
+            const res = grecaptcha.getResponse();
+            if (res.length == 0) { 
+                alert("Paki-tsek muna ang 'I'm not a robot' box."); 
+                return false; 
+            }
+            return res;
+        }
+
+        // 2. MANUAL FORM VALIDATION & PASSWORD STRENGTH
+        let isPasswordStrong = false;
+
+        document.getElementById("mainRegisterForm").addEventListener("submit", function(e) {
+            if (!checkRecaptcha()) { e.preventDefault(); return; }
+            if (!isPasswordStrong) {
+                alert("Please make sure your password meets all the security requirements.");
+                e.preventDefault();
+            }
+        });
+
+        function updateReq(id, isValid) {
+            const el = document.getElementById(id);
+            const icon = el.querySelector('i');
+            if (isValid) {
+                el.classList.remove('invalid');
+                el.classList.add('valid');
+                el.style.color = '#2ecc71';
+                icon.className = 'fas fa-check-circle';
+                icon.style.color = '#2ecc71';
+            } else {
+                el.classList.remove('valid');
+                el.classList.add('invalid');
+                el.style.color = '#777';
+                icon.className = 'fas fa-times-circle';
+                icon.style.color = '#e74c3c';
+            }
+        }
+
+        function checkPasswordStrength() {
+            const pass = document.getElementById('pass').value;
+            const container = document.getElementById('password-strength-container');
+            
+            if (pass.length > 0) {
+                container.style.display = "block";
+            } else {
+                container.style.display = "none";
+                isPasswordStrong = false;
+                return;
+            }
+
+            // Checks
+            const hasLength = pass.length >= 8;
+            const hasUpper = /[A-Z]/.test(pass);
+            const hasNum = /[0-9]/.test(pass);
+            const hasSpec = /[!@#$%^&*(),.?":{}|<>]/.test(pass);
+
+            updateReq('req-length', hasLength);
+            updateReq('req-upper', hasUpper);
+            updateReq('req-num', hasNum);
+            updateReq('req-spec', hasSpec);
+
+            let score = 0;
+            if (hasLength) score++;
+            if (hasUpper) score++;
+            if (hasNum) score++;
+            if (hasSpec) score++;
+
+            const bar1 = document.getElementById('bar-1');
+            const bar2 = document.getElementById('bar-2');
+            const bar3 = document.getElementById('bar-3');
+            const text = document.getElementById('strength-text');
+
+            bar1.style.background = '#ddd';
+            bar2.style.background = '#ddd';
+            bar3.style.background = '#ddd';
+
+            isPasswordStrong = false;
+
+            if (score <= 2) {
+                bar1.style.background = '#e74c3c'; // Weak
+                text.textContent = 'Weak Password';
+                text.style.color = '#e74c3c';
+            } else if (score === 3) {
+                bar1.style.background = '#f1c40f';
+                bar2.style.background = '#f1c40f'; // Medium
+                text.textContent = 'Medium Password';
+                text.style.color = '#f1c40f';
+            } else if (score === 4) {
+                bar1.style.background = '#2ecc71';
+                bar2.style.background = '#2ecc71';
+                bar3.style.background = '#2ecc71'; // Strong
+                text.textContent = 'Strong Password';
+                text.style.color = '#2ecc71';
+                isPasswordStrong = true;
+            }
+        }
+
+        let tokenClient;
+        window.onload = function() {
+            tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: '47612712308-8rh4nfkq5s74rkova2pe60h9p8en2jmb.apps.googleusercontent.com',
+                scope: 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
+                callback: (tokenResponse) => {
+                    if (tokenResponse && tokenResponse.access_token) {
+                        const token = checkRecaptcha();
+                        if (!token) return;
+
+                        // Get user info directly from Google API
+                        fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                            headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            document.getElementById('google-credential').value = JSON.stringify(data);
+                            document.getElementById('google-recaptcha-response').value = token;
+                            document.getElementById('google-login-form').submit();
+                        });
+                    }
+                },
+            });
+        };
+
+        // 3. GOOGLE CUSTOM LOGIN LOGIC
+        function googleCustomLogin() {
+            if (!checkRecaptcha()) return;
+            tokenClient.requestAccessToken();
+        }
+
+        // 4. FACEBOOK LOGIC
+        window.fbAsyncInit = function() { 
+            FB.init({ appId: '3396938717141397', cookie: true, xfbml: true, version: 'v18.0' }); 
+        };
+
+        function fbLogin() {
+            const token = checkRecaptcha();
+            if (!token) return;
+            
+            FB.login(function(response) {
+                if (response.status === 'connected') {
+                    FB.api('/me', {fields: 'name,email'}, function(userData) {
+                        document.getElementById('fb-email').value = userData.email;
+                        document.getElementById('fb-name').value = userData.name;
+                        document.getElementById('fb-recaptcha-response').value = token;
+                        document.getElementById('fb-login-form').submit();
+                    });
+                }
+            }, {scope: 'public_profile,email'});
+        }
+
+        // 5. SHOW/HIDE PASSWORD
+        function togglePass(id) {
+            const x = document.getElementById(id);
+            const icon = x.nextElementSibling;
+            if (x.type === "password") {
+                x.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                x.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+    </script>
+</body>
+</html>

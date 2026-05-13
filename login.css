@@ -1,0 +1,326 @@
+/* =========================================
+   RESET AT GENERAL STYLES
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body, html {
+    height: 100vh; /* Sakop ang buong height ng screen */
+    width: 100vw;  /* Sakop ang buong width ng screen */
+    background-color: #222222;
+    overflow-x: hidden;
+    /* Tinanggal natin yung padding para sumagad sa gilid */
+}
+
+/* =========================================
+   MAIN CONTAINER (FULLSCREEN NA)
+   ========================================= */
+.login-container {
+    width: 100%;
+    height: 100%; /* Sagad sa buong screen */
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('restaurant-bg.jpg') center/cover no-repeat;
+    position: relative; 
+    display: flex;
+    overflow: hidden;
+}
+
+/* =========================================
+   LEFT PANEL (Ang Cream Curve - Desktop)
+   ========================================= */
+.left-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 55%; /* Sakop ang kalahati ng screen */
+    height: 100%;
+    background-color: #ffecd2; 
+    /* Mas malapad na curve para sa fullscreen */
+    clip-path: ellipse(75% 70% at 0% 50%); 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Naka-center ang text vertically */
+    padding: 0 8%; /* Breathing room sa gilid */
+    z-index: 1;
+}
+
+.logo-box {
+    position: absolute;
+    top: 40px;
+    left: 8%;
+    border: 3px solid #3b82f6; 
+    display: inline-block;
+    padding: 2px;
+    width: 90px; /* Pinalaki nang konti para sa desktop */
+    background: white;
+}
+.logo-box img { width: 100%; display: block; }
+
+.brand-text-wrapper {
+    margin-top: 0;
+}
+
+.brand-text {
+    font-size: 5rem; /* Pinalaki ang text para sa fullscreen */
+    font-weight: 800;
+    line-height: 1.05;
+    color: #fcb063; 
+    -webkit-text-stroke: 2px #4a4a4a; 
+    text-shadow: 4px 4px 0px #4a4a4a;
+    text-transform: uppercase;
+}
+
+.sub-brand-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-top: 10px;
+}
+
+.social-icons-bottom {
+    position: absolute;
+    bottom: 40px;
+    left: 8%;
+    display: flex;
+    gap: 20px;
+    font-size: 1.8rem;
+    color: #fcb063;
+}
+
+/* =========================================
+   RIGHT PANEL (Ang Login Form)
+   ========================================= */
+.right-panel {
+    width: 45%; /* Kalahati ng screen */
+    margin-left: auto; 
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 5%;
+    position: relative;
+    z-index: 2; 
+}
+
+.login-icon-box {
+    width: 75px;
+    height: 75px;
+    background-color: #fcb063; 
+    border-radius: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 35px;
+    color: white;
+    box-shadow: inset 0 0 10px rgba(255,255,255,0.4);
+    margin-bottom: 10px;
+}
+
+.form-heading {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: white;
+    -webkit-text-stroke: 1.5px #fcb063;
+    text-shadow: 3px 3px 0px #fcb063;
+    margin-bottom: 5px;
+}
+
+.form-subheading {
+    font-size: 0.85rem;
+    color: white;
+    text-align: center;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.login-form {
+    width: 100%;
+    max-width: 350px; /* Nilakihan nang konti para sa desktop */
+    display: flex;
+    flex-direction: column;
+}
+
+.input-field {
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    position: relative;
+}
+
+.input-field i { color: #888; font-size: 1rem; }
+.input-field input {
+    border: none;
+    padding: 14px 12px;
+    width: 100%;
+    outline: none;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    color: #333;
+}
+
+.toggle-eye {
+    position: absolute;
+    right: 15px;
+    cursor: pointer;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: white;
+    margin-bottom: 20px;
+}
+.form-options a { color: white; text-decoration: none; }
+    .form-options a:hover { text-decoration: underline; }
+
+.btn-login {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    border: none;
+    background-color: #fcb063;
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 15px;
+}
+.btn-login:hover { background-color: #e59a53; }
+
+.signup-divider {
+    text-align: center;
+    font-size: 0.9rem;
+    color: white;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* --- GOOGLE & FB PILL BUTTONS --- */
+.social-login {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+.btn-social-pill {
+    flex: 1;
+    padding: 12px;
+    border-radius: 30px; 
+    border: 2px solid #fcb063;
+    background: white;
+    color: #fcb063;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: 0.2s;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-social-pill:hover {
+    background: #fff8f0;
+    transform: translateY(-2px);
+}
+.social-icon-img { width: 18px; height: 18px; }
+
+.recaptcha-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+
+/* =========================================
+   RESPONSIVENESS (Laptops, Tablets, Cellphones)
+   ========================================= */
+
+/* Para sa mas maliliit na laptop / malalaking tablet */
+@media (max-width: 1024px) {
+    .brand-text { font-size: 3.5rem; }
+    .left-panel { clip-path: ellipse(95% 75% at 0% 50%); width: 50%; padding: 0 5%; }
+    .right-panel { width: 50%; padding: 40px 5%; }
+}
+
+/* Tablets at Cellphones (Stacking Layout) */
+@media (max-width: 850px) {
+    body, html { height: auto; min-height: 100vh; overflow-x: hidden; }
+    .login-container { 
+        flex-direction: column; 
+        height: auto; 
+        min-height: 100vh;
+        overflow-y: visible;
+    }
+    .left-panel { 
+        position: relative; 
+        width: 100%; 
+        height: auto; 
+        clip-path: none; 
+        border-radius: 0 0 50% 50% / 0 0 50px 50px; 
+        padding: 50px 20px 60px 20px; 
+        align-items: center; 
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+    
+    .logo-box { position: relative; top: 0; left: 0; margin-bottom: 15px; width: 80px; }
+    .social-icons-bottom { position: relative; bottom: 0; left: 0; margin-top: 25px; justify-content: center; gap: 25px; }
+    
+    .brand-text { font-size: 3.2rem; }
+    
+    .right-panel { 
+        width: 100%; 
+        margin-left: 0; 
+        padding: 40px 20px 60px 20px; 
+        height: auto;
+    }
+    .login-form { max-width: 400px; width: 100%; }
+}
+
+/* Phones */
+@media (max-width: 600px) {
+    .brand-text { font-size: 2.8rem; }
+    .left-panel { padding: 40px 15px 50px 15px; border-radius: 0 0 50% 50% / 0 0 35px 35px; }
+    .form-heading { font-size: 2.2rem; }
+    .right-panel { padding: 30px 15px 50px 15px; }
+}
+
+/* Extra Small Phones */
+@media (max-width: 480px) {
+    .social-login { flex-direction: column; gap: 12px; }
+    .btn-social-pill { padding: 12px; width: 100%; }
+    .brand-text { font-size: 2.3rem; }
+    .sub-brand-text { font-size: 1rem; }
+    .logo-box { width: 70px; }
+    
+    .recaptcha-wrapper { 
+        transform: scale(0.85); 
+        transform-origin: center center; 
+        margin-bottom: 15px;
+    }
+}
+
+/* Very Small Phones */
+@media (max-width: 360px) {
+    .brand-text { font-size: 2rem; }
+    .form-heading { font-size: 1.8rem; }
+    .recaptcha-wrapper { 
+        transform: scale(0.75); 
+        transform-origin: center center; 
+        margin-bottom: 5px;
+    }
+    .left-panel { border-radius: 0 0 50% 50% / 0 0 25px 25px; padding: 30px 15px 40px 15px; }
+    .logo-box { width: 60px; }
+}
